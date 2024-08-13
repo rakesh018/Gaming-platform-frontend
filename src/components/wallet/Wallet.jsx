@@ -6,8 +6,12 @@ import { BetSlip } from '../../BetSlip';
 import deposit from '../../images/deposit.png';
 import withdraw from '../../images/withdraw.png';
 import './wallet.css';
+import { profileAtom } from '../../atoms';
+import { useRecoilValue } from 'recoil';
 
 export const Wallet = () => {
+  const profile=useRecoilValue(profileAtom);
+  const balance=profile.balance;
   const navigate = useNavigate();
   return (
     <div>
@@ -17,7 +21,7 @@ export const Wallet = () => {
 <button className='notificationBtn ms-3'>WALLET</button>
 <div className="innerNotificationBox m-3 p-3 text-center">
 <div>
-  <h1>TOTAL BALANCE : 0</h1>
+  <h1>TOTAL BALANCE : {balance}</h1>
   <hr  className='w-30' style={{ border: '2px solid black' }}/>
 </div>
 <div className="d-flex justify-content-evenly">

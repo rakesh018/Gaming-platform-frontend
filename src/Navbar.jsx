@@ -8,8 +8,12 @@ import image2 from './images/image2.png';
 import image3 from './images/image3.png';
 import image4 from './images/image4.png';
 import image5 from './images/image5.png';
+import { useRecoilValue } from "recoil";
+import { profileAtom } from "./atoms";
+
 
 export const Navbar = () => {
+	const profile = useRecoilValue(profileAtom);
   return (
     <div>
         <div className="container-fluid top-nav ">
@@ -44,7 +48,7 @@ export const Navbar = () => {
                             </div>
               <div>
                <button className="wallet m-3">
-                WALLET BALANCE:0
+                WALLET BALANCE:{profile.balance}
                </button>
               </div>
             </div>

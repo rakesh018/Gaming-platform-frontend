@@ -1,27 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import { Navbar } from '../../Navbar';
-import { Sidebar } from '../../Sidebar';
-import { BetSlip } from '../../BetSlip';
-
-
-const simulatedLeaderBoardData = [
-  { game: 'Coin Flip', name: 'LOHITH KUMAR', money: '10000' },
-  { game: 'Trader', name: 'OLIVER', money: '+7,34,000' },
-  // Add more leaderboard objects as needed
-];
+import React, { useState, useEffect } from "react";
+import { Navbar } from "../../Navbar";
+import { Sidebar } from "../../Sidebar";
+import { BetSlip } from "../../BetSlip";
 
 export const LeaderBoard = () => {
-  const [leaderBoardData, setLeaderBoardData] = useState([]);
+  const [allTimeLeaderBoard, setAllTimeLeaderBoard] = useState([]);
+  const [dailyLeaderBoard, setDailyLeaderboard] = useState([]);
 
   useEffect(() => {
-    // Simulate fetching data
-    const fetchLeaderBoardData = () => {
-      setTimeout(() => {
-        setLeaderBoardData(simulatedLeaderBoardData);
-      }, 1000);
-    };
-
-    fetchLeaderBoardData();
+    async function fetchLeaderBoards() {
+      try {
+        const allTime = await fetch(
+          "https://server.trademax1.com/profile/leaderboard/all-time-leaderboard",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        const daily = await fetch(
+          "https://server.trademax1.com/profile/leaderboard/daily-leaderboard",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        const parsedAllTime = await allTime.json();
+        const parsedDaily = await daily.json();
+        console.log(parsedAllTime,parsedDaily);
+        setAllTimeLeaderBoard(parsedAllTime);
+        setDailyLeaderboard(parsedDaily);
+      } catch (error) {
+        console.error("Error occured while fetching leaderboard data.");
+      }
+    }
+    fetchLeaderBoards();
   }, []);
 
   return (
@@ -29,58 +45,54 @@ export const LeaderBoard = () => {
       <Navbar />
       <div className="container historyBox mt-2">
         <div>
-          <button className='historybtn'>
-            Leader Board
-          </button>
+          <button className="historybtn">Leader Board</button>
         </div>
-        <div className='d-flex justify-content-evenly mt-3'>
+        <div className="d-flex justify-content-evenly mt-3">
           <div className="history1 ">
-            <button className='game1 p-2 m-2'>
-              Coin FLIP
-            </button>
+            <button className="game1 p-2 m-2">All Time Leaderboard</button>
             <div className="d-flex justify-content-evenly">
               <div>
                 NAME
                 <div>
-                  {leaderBoardData
-                    .filter(item => item.game === 'Coin Flip')
-                    .map((item, index) => (
-                      <div key={index}>{index + 1}. {item.name}</div>
+                  {allTimeLeaderBoard.leaderboardData
+                    ?.map((item, index) => (
+                      <div key={index}>
+                        {index + 1}. {item.userId}
+                      </div>
                     ))}
                 </div>
               </div>
               <div>
                 MONEY
                 <div>
-                  {leaderBoardData
-                    .filter(item => item.game === 'Coin Flip')
-                    .map((item, index) => (
-                      <div key={index}>{item.money}</div>
+                  {allTimeLeaderBoard.leaderboardData
+                    ?.map((item, index) => (
+                      <div key={index}>{item.totalWinnings}</div>
                     ))}
                 </div>
               </div>
             </div>
           </div>
           <div className="history2">
-            <button className='game2 p-2 m-2'>Trader</button>
+            <button className="game2 p-2 m-2">Daily Leaderboard</button>
             <div className="d-flex justify-content-evenly">
               <div>
                 NAME
                 <div>
-                  {leaderBoardData
-                    .filter(item => item.game === 'Trader')
-                    .map((item, index) => (
-                      <div key={index}>{index + 1}. {item.name}</div>
+                  {dailyLeaderBoard.leaderboardData
+                    ?.map((item, index) => (
+                      <div key={index}>
+                        {index + 1}. {item.userId}
+                      </div>
                     ))}
                 </div>
               </div>
               <div>
                 MONEY
                 <div>
-                  {leaderBoardData
-                    .filter(item => item.game === 'Trader')
-                    .map((item, index) => (
-                      <div key={index}>{item.money}</div>
+                  {dailyLeaderBoard.leaderboardData
+                    ?.map((item, index) => (
+                      <div key={index}>{item.totalWinnings}</div>
                     ))}
                 </div>
               </div>

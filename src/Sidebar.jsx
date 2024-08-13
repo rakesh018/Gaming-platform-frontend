@@ -25,6 +25,7 @@ export const Sidebar = () => {
   };
 
   const handleConfirmLogout = () => {
+    localStorage.removeItem('token');
     navigate('/login'); 
     setLogoutModal(null); 
   };
