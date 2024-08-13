@@ -2,8 +2,12 @@ import React from 'react';
 import logo from '../../images/logo.png';
 import question from '../../images/questionMark.png';
 import round from '../../images/roundimage.png';
+import { profileAtom } from '../../atoms';
+import { useRecoilValue } from 'recoil';
 
 export const Gamenav = () => {
+  const profile=useRecoilValue(profileAtom);
+  const balance=profile.balance;
   return (
     <div>
 
@@ -39,7 +43,7 @@ export const Gamenav = () => {
                             </div>
               <div>
                <button className="wallet m-3">
-                WALLET BALANCE:0
+                WALLET BALANCE:{balance}
                </button>
               </div>
             </div>

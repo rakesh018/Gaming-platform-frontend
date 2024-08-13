@@ -56,8 +56,8 @@ export const BetSlip = () => {
           <button className="bet-sel mt-2">BET SLIPS</button>
         </div>
 
-        <div className="betSelectionBox mt-3">
-          <div className="betDetails">
+        <div className="betSelectionBox mt-3 no-scrollbar">
+          <div className="betDetails no-scrollbar">
             {betDetails.bets && betDetails.bets.length > 0 ? (
               betDetails.bets.map((bet, index) => (
                 <div key={index} className="betDetailBox m-2 p-2">

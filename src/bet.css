@@ -29,7 +29,8 @@ border-radius:10px ;
 .betSelectionBox{
   color: black;
 height:60vh ;
-
+max-height: 60vh;
+overflow-y: auto;
 border-radius:10px ;
 -webkit-border-radius:10px ;
 -moz-border-radius:10px ;
